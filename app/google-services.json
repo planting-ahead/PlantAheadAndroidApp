@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "37140465222",
+    "firebase_url": "https://plantahead-f705f.firebaseio.com",
+    "project_id": "plantahead-f705f",
+    "storage_bucket": "plantahead-f705f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:37140465222:android:e17d88db4266d21b",
+        "android_client_info": {
+          "package_name": "com.example.plantahead"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "37140465222-p4qit2pdmm62jlb2h7rornvk2376rmt7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.plantahead",
+            "certificate_hash": "a519413e2ca1db9f0e56362ad3971ab2a7e6773a"
+          }
+        },
+        {
+          "client_id": "37140465222-6p169ep5bvg9b7fob04t3oque712vhi5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCeDhkiPDvGRa3WZLuPWtsuPpFjVhOMj2U"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "37140465222-nh87cchsskso3o6lt065kieoj1e5g26k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
