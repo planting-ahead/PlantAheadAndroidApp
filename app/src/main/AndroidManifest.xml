@@ -7,6 +7,8 @@
     <uses-permission android:name="android.permission.READ_PROFILE"/>
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-feature android:name="android.hardware.camera" android:required="true" />
 
     <application
             android:allowBackup="true"
@@ -18,19 +20,19 @@
         <activity
                 android:name=".activities.SignUpActivity"
                 android:label="@string/app_name">
-        </activity>
-        <activity android:name=".activities.AddPlantActivity"
-                  android:label="@string/app_addplant_activity"
-                  android:parentActivityName=".activities.SignUpActivity">
-        </activity>
-        <activity android:name=".activities.DashboardActivity"
-                  android:label="@string/app_dashboard_activity"
-                  android:parentActivityName=".activities.AddPlantActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+        </activity>
+        <activity android:name=".activities.AddPlantActivity"
+                  android:label="@string/app_addplant_activity"
+                  android:parentActivityName=".activities.DashboardActivity">
+        </activity>
+        <activity android:name=".activities.DashboardActivity"
+                  android:label="@string/app_dashboard_activity"
+                  android:parentActivityName=".activities.AddPlantActivity">
         </activity>
     </application>
 

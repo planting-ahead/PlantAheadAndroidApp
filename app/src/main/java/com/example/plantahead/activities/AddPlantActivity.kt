@@ -5,17 +5,15 @@ import android.app.LoaderManager
 import android.content.Loader
 import android.database.Cursor
 import android.os.Bundle
+
 import android.support.v7.app.AppCompatActivity
-import android.view.inputmethod.EditorInfo
-import android.widget.TextView
 import com.example.plantahead.R
 import com.example.plantahead.models.Plant
 import com.google.firebase.FirebaseApp
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.IgnoreExtraProperties
 import kotlinx.android.synthetic.main.activity_addplant.*
-import kotlinx.android.synthetic.main.activity_signup.*
+
 
 class AddPlantActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -23,16 +21,6 @@ class AddPlantActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Curs
         super.onCreate(savedInstanceState)
         FirebaseApp.initializeApp(this)
         setContentView(R.layout.activity_addplant)
-        // Set up the login form.
-        // populateAutoComplete()
-//        password.setOnEditorActionListener(TextView.OnEditorActionListener { _, id, _ ->
-//            if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL) {
-//                attemptSave()
-//                return@OnEditorActionListener true
-//            }
-//            false
-//        })
-
         addplat_button.setOnClickListener{attemptSave()}
     }
 
@@ -52,13 +40,16 @@ class AddPlantActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Curs
         // call an endpoint
         val plantName = plant_name.text.toString()
         val plantDescription = description.text.toString()
-        writeNewPlant(plantName, plantDescription)
+        val humidityLevel = humidity_level.text.toString()
+        val temperature = temperature_level.text.toString()
+        writeNewPlant(plantName, temperature, humidityLevel, plantDescription)
     }
 
     private lateinit var database: DatabaseReference
-    private fun writeNewPlant(name:String, description:String){
+    private fun writeNewPlant(name:String, temperature: String, humidityLevel: String, description:String){
         database = FirebaseDatabase.getInstance().reference
-        val plant = Plant(name, " ", description, 0, 0, 0)
-        val value = database.child("plants").push().setValue(plant)
+        val plant = Plant(name, "", description, "", humidityLevel, temperature, "")
+        database.child("plants").push().setValue(plant)
+        this.finish()
     }
 }

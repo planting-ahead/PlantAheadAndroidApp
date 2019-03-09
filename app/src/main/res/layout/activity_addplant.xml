@@ -51,6 +51,34 @@
 
             </android.support.design.widget.TextInputLayout>
 
+            <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                <EditText
+                        android:id="@+id/temperature_level"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Temperature"
+                        android:inputType="text"
+                        android:maxLines="1"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                <EditText
+                        android:id="@+id/humidity_level"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Humidity Level"
+                        android:inputType="text"
+                        android:maxLines="1"/>
+
+            </android.support.design.widget.TextInputLayout>
+
             <Button
                     android:id="@+id/addplat_button"
                     style="?android:textAppearanceSmall"
