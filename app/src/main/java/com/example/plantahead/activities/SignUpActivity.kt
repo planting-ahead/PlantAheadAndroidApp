@@ -23,7 +23,12 @@ import android.widget.TextView
 
 import java.util.ArrayList
 import android.Manifest.permission.READ_CONTACTS
+import android.content.Intent
 import com.example.plantahead.R
+import com.example.plantahead.models.User
+import com.google.firebase.FirebaseApp
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 import kotlinx.android.synthetic.main.activity_signup.*
 
@@ -35,21 +40,26 @@ class SignUpActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     private var mAuthTask: UserLoginTask? = null
+    private var dashboardIntent: Intent? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup)
+        dashboardIntent = Intent(this, DashboardActivity::class.java)
+        val firebaseDatabaseReference: DatabaseReference = FirebaseDatabase.getInstance().getReference("User")
+
         // Set up the login form.
         populateAutoComplete()
         password.setOnEditorActionListener(TextView.OnEditorActionListener { _, id, _ ->
             if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL) {
-                attemptSignup()
+                attemptSignup(firebaseDatabaseReference)
                 return@OnEditorActionListener true
             }
             false
         })
 
-        email_sign_in_button.setOnClickListener { attemptSignup() }
+
+        email_sign_in_button.setOnClickListener { attemptSignup(firebaseDatabaseReference) }
     }
 
     private fun populateAutoComplete() {
@@ -101,7 +111,7 @@ class SignUpActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
-    private fun attemptSignup() {
+    private fun attemptSignup(database: DatabaseReference) {
         if (mAuthTask != null) {
             return
         }
@@ -143,7 +153,9 @@ class SignUpActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true)
-            mAuthTask = UserLoginTask(emailStr, passwordStr)
+            val user = User(emailStr, emptyList(), emptyList(), passwordStr,  zipCode.text.toString().toInt())
+            database.child("Users").push().setValue(user)
+            mAuthTask = UserLoginTask(database, emailStr, passwordStr, zipCode.text.toString().toInt())
             mAuthTask!!.execute(null as Void?)
         }
     }
@@ -255,14 +267,11 @@ class SignUpActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    inner class UserLoginTask internal constructor(private val mEmail: String, private val mPassword: String) :
+    inner class UserLoginTask internal constructor(private val mDatabaseReference: DatabaseReference, private val mEmail: String, private val mPassword: String, private val mZipCode: Number) :
         AsyncTask<Void, Void, Boolean>() {
 
         override fun doInBackground(vararg params: Void): Boolean? {
-            // TODO: attempt authentication against a network service.
-
             try {
-                // Simulate network access.
                 Thread.sleep(2000)
             } catch (e: InterruptedException) {
                 return false
@@ -283,7 +292,7 @@ class SignUpActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
             showProgress(false)
 
             if (success!!) {
-                finish()
+                startActivity(dashboardIntent)
             } else {
                 password.error = getString(R.string.error_incorrect_password)
                 password.requestFocus()
